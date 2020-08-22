@@ -91,13 +91,13 @@ public class SchedulingAlgorithm extends DataAwareSchedulingAlgorithmExample {
         JSONArray jsonArray = JSONArray.parseArray(vmlist);
         List<CondorVM> vmlist0 = new ArrayList<CondorVM>();
         for (int i = 0; i < jsonArray.size(); i++) {
-            int num = Integer.parseInt((String) jsonArray.getJSONObject(i).get("num"));
-            long size = Long.parseLong((String) jsonArray.getJSONObject(i).get("size"));
-            int memo = Integer.parseInt((String) jsonArray.getJSONObject(i).get("memo"));
-            int mips = Integer.parseInt((String) jsonArray.getJSONObject(i).get("mips"));
-            long bandwidth = Long.parseLong((String) jsonArray.getJSONObject(i).get("bw"));
-            int cpu = Integer.parseInt((String) jsonArray.getJSONObject(i).get("cpu"));
-            List<CondorVM> vmlistemp = SchedulecreateVM(wfEngine.getSchedulerId(0), num, size, memo, mips, bandwidth, cpu);
+            int count = Integer.parseInt(jsonArray.getJSONObject(i).get("count").toString());
+            long mirror = Long.parseLong(jsonArray.getJSONObject(i).get("mirror").toString());
+            int ram = Integer.parseInt(jsonArray.getJSONObject(i).get("ram").toString());
+            int mips = Integer.parseInt(jsonArray.getJSONObject(i).get("mips").toString());
+            long bandwidth = Long.parseLong(jsonArray.getJSONObject(i).get("bw").toString());
+            int cpu = Integer.parseInt(jsonArray.getJSONObject(i).get("cpu").toString());
+            List<CondorVM> vmlistemp = SchedulecreateVM(wfEngine.getSchedulerId(0), count, mirror, ram, mips, bandwidth, cpu);
             vmlist0.addAll(vmlist0.size(), vmlistemp);
         }
         return vmlist0;
@@ -230,5 +230,6 @@ public class SchedulingAlgorithm extends DataAwareSchedulingAlgorithmExample {
                Log.printLine("The simulation has been terminated due to an unexpected error");
            }
             totalvm=0;
+
      }
 }

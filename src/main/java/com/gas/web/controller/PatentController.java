@@ -132,7 +132,7 @@ public class PatentController {
 
 
     /**
-     * 通过 id 更新一项专利
+     * 下载专利
      * @return
      */
     @RequestMapping(value="/download/{id}", produces = { "application/json" },method = RequestMethod.POST)
