@@ -17,88 +17,85 @@
 <body>
 <div class="layui-form layuimini-form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">论文</label>
+        <label class="layui-form-label required">项目名称</label>
         <div class="layui-input-block">
-            <input type="text" name="title" lay-verify="required" lay-reqtext="论文不能未空" placeholder="请输入论文名称" value="" class="layui-input">
+            <input type="text" name="title" lay-verify="required" lay-reqtext="项目名称不能为空" placeholder="请输入项目名称" value="" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label required">第一作者</label>
+        <label class="layui-form-label required">负责人</label>
         <div class="layui-input-block">
-            <input type="text" name="author1" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名" value="" class="layui-input">
-        </div>
-    </div>
-
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">第二作者</label>
-        <div class="layui-input-block">
-            <input type="text" name="author2" placeholder="请输入姓名" value="" class="layui-input">
+            <input type="text" name="pic"  value="李小平" class="layui-input" disabled="disabled">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">其他作者</label>
+        <label class="layui-form-label required">开始日期</label>
         <div class="layui-input-block">
-            <input type="text" name="authorOther" placeholder="请输入姓名" value="" class="layui-input">
-        </div>
-    </div>
-
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">论文来源</label>
-        <div class="layui-input-block">
-            <input type="text" name="origin" placeholder="请输入论文来源" value="" class="layui-input">
+            <input  type="text" name="startDate" id="test1" lay-verify="required" lay-reqtext="开始日期不能为空" placeholder="yyyy-MM" value=""class="layui-input" autocomplete="off" lay-verify="date">
         </div>
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label required">结束日期</label>
         <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+            <input  type="text" name="endDate" id="test2" lay-verify="required" lay-reqtext="结束日期不能为空" placeholder="yyyy-MM" value=""class="layui-input" autocomplete="off" lay-verify="date">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">类型</label>
+        <div class="layui-input-block">
+            <select name="type" id="type" lay-verify="required" lay-reqtext="类型不能为空" placeholder="请选择项目类型" value="" >
+                <option value="国家自然基金项目">国家自然基金项目</option>
+                <option value="X">X</option>
+                <option value="XX">XX</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn" id="saveBtn">确认保存</button>
         </div>
     </div>
 </div>
 <script src="../../../static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form'], function () {
+
+     layui.use(['form', 'table', 'upload', 'layedit'], function(){
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
+        var $ = layui.jquery;
 
-        //监听提交
+
+         //监听提交
         form.on('submit(saveBtn)', function (data) {
-
-            var index = layer.alert("确认添加吗", {
-                title: '信息'
+           var index = layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
             }, function () {
-
                 // 关闭弹出层
                 layer.close(index);
-
                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(iframeIndex);
 
                 $.ajax({
-                    url:'/paper/add',
+                    url:'/project/add',
                     method:'post',
                     data:data.field,
                     dataType:'JSON',
                     success:function(res){
-                        if(res.code = 200){
-                            alert("添加成功");
-                        } else {
-                            alert("添加失败");
-                        }
+                        parent.layer.msg(res.msg);
                     },
                     error:function () {
-                        alert("添加失败");
+                        parent.layer.msg("错误");
                     }
                 });
             });
 
             return false;
-
         });
 
     });
